@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Profilo - MarketDeal</title>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"
+      defer
+    ></script>
+    <link rel="stylesheet" href="../global.css" />
+    <script src="../utils/middleware.js"></script>
+    <script src="../utils/path-helper.js" type="module" defer></script>
+    <script src="../components/navbar.js" type="module" defer></script>
+    <script src="../components/footer.js" defer></script>
+    <script src="../utils/form-validation.js" defer></script>
+  </head>
+  <body class="bg-slate-900 min-h-screen">
+    <!-- NAVBAR will be dynamically injected by navbar.js -->
+
+    <!-- MAIN CONTENT -->
+    <main class="px-4 max-w-4xl mx-auto pt-10">
+      <div class="bg-slate-800 p-8 rounded-lg shadow-lg">
+        <h1 class="text-3xl font-bold text-white mb-8 text-center">
+          Il Mio Profilo
+        </h1>
+
+        <!-- User Info Card -->
+        <div id="user-info" class="bg-slate-700 p-6 rounded-lg mb-8">
+          <h2 class="text-xl font-semibold text-white mb-4">
+            Informazioni Personali
+          </h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-sm font-medium text-slate-300 mb-1">
+                Nome Completo
+              </label>
+              <p id="user-fullname" class="text-white bg-slate-600 p-2 rounded">
+                Caricamento...
+              </p>
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-slate-300 mb-1">
+                Username
+              </label>
+              <p id="user-username" class="text-white bg-slate-600 p-2 rounded">
+                Caricamento...
+              </p>
+            </div>
+            <div class="md:col-span-2">
+              <label class="block text-sm font-medium text-slate-300 mb-1">
+                Email
+              </label>
+              <p id="user-email" class="text-white bg-slate-600 p-2 rounded">
+                Caricamento...
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- User Ads Section -->
+        <div id="user-ads-section" class="mb-8">
+          <h2
+            class="text-xl font-semibold text-white mb-4 flex items-center gap-2"
+          >
+            <svg
+              class="w-6 h-6"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"
+              />
+            </svg>
+            I Miei Annunci
+            <span
+              id="ads-count"
+              class="bg-red-500 text-white px-2 py-1 rounded-full text-sm"
+              >0</span
+            >
+          </h2>
+
+          <!-- Ads Grid -->
+          <div
+            id="user-ads-grid"
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
+            <!-- User ads will be loaded here -->
+          </div>
+
+          <!-- No Ads Message -->
+          <div
+            id="no-ads-message"
+            class="hidden bg-slate-700 p-8 rounded-lg text-center"
+          >
+            <svg
+              class="w-16 h-16 text-slate-500 mx-auto mb-4"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+              />
+            </svg>
+            <h3 class="text-lg font-semibold text-white mb-2">
+              Nessun annuncio pubblicato
+            </h3>
+            <p class="text-slate-400 mb-4">
+              Non hai ancora pubblicato nessun annuncio.
+            </p>
+            <a
+              href="../index.html"
+              class="inline-flex items-center bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-lg font-medium transition-colors"
+            >
+              <svg
+                class="w-4 h-4 mr-2"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 4v16m8-8H4"
+                />
+              </svg>
+              Pubblica il tuo primo annuncio
+            </a>
+          </div>
+
+          <!-- Loading Section -->
+          <div id="ads-loading" class="bg-slate-700 p-8 rounded-lg text-center">
+            <div
+              class="animate-spin rounded-full h-12 w-12 border-b-2 border-red-500 mx-auto mb-4"
+            ></div>
+            <p class="text-slate-300">Caricamento annunci...</p>
+          </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex flex-col sm:flex-row gap-4 justify-center">
+          <button
+            id="logout-btn"
+            class="bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-lg font-semibold transition-colors flex items-center justify-center gap-2 cursor-pointer"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
+              />
+            </svg>
+            Logout
+          </button>
+          <a
+            href="../index.html"
+            class="bg-slate-600 hover:bg-slate-500 text-white px-6 py-3 rounded-lg font-semibold transition-colors flex items-center justify-center gap-2"
+          >
+            <svg
+              class="w-5 h-5"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
+              />
+            </svg>
+            Torna alla Home
+          </a>
+        </div>
+      </div>
+    </main>
+
+    <!-- FOOTER will be dynamically injected by footer.js -->
+
+    <script>
+      // Carica le informazioni dell'utente al caricamento della pagina
+      document.addEventListener("DOMContentLoaded", function () {
+        const loggedUser = localStorage.getItem("loggedUser");
+
+        if (!loggedUser) {
+          // Se l'utente non è loggato, reindirizza al login
+          window.location.href = "login.html";
+          return;
+        }
+
+        const user = JSON.parse(loggedUser);
+
+        // Popola i campi con le informazioni dell'utente
+        document.getElementById("user-fullname").textContent =
+          user.fullName || "Non specificato";
+        document.getElementById("user-username").textContent =
+          user.username || "Non specificato";
+        document.getElementById("user-email").textContent =
+          user.email || "Non specificato";
+
+        // Carica gli annunci dell'utente
+        loadUserAds(user.email);
+
+        // Aggiungi event listener per il pulsante logout
+        const logoutBtn = document.getElementById("logout-btn");
+        if (logoutBtn) {
+          logoutBtn.addEventListener("click", function () {
+            if (window.handleLogout) {
+              window.handleLogout();
+            } else {
+              // Fallback se handleLogout non è disponibile
+              localStorage.removeItem("loggedUser");
+              window.location.href = "../index.html";
+            }
+          });
+        }
+
+        // Inizializza il middleware di autenticazione
+        if (window.AuthMiddleware && window.AuthMiddleware.initMiddleware) {
+          window.AuthMiddleware.initMiddleware();
+        }
+      });
+
+      // Funzione per ottenere gli annunci utente dal localStorage
+      const getUserAdsFromLocalStorage = () => {
+        try {
+          return JSON.parse(localStorage.getItem("userAds") || "[]");
+        } catch (error) {
+          console.error("Error reading from localStorage:", error);
+          return [];
+        }
+      };
+
+      // Funzione per creare una card annuncio
+      const createUserAdCard = (ad) => {
+        const card = document.createElement("div");
+        card.className =
+          "bg-slate-700 border border-slate-600 rounded-lg shadow-lg overflow-hidden hover:shadow-xl hover:border-red-500 transition-all duration-300";
+
+        // Formatta la data
+        const date = new Date(ad.data_pubblicazione);
+        const formattedDate = date.toLocaleDateString("it-IT", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+        });
+
+        card.innerHTML = `
+          <div class="relative">
+            <img 
+              src="${ad.immagine_principale}" 
+              alt="${ad.titolo}" 
+              class="w-full h-48 object-cover"
+              onerror="this.src='https://images.unsplash.com/photo-1560472354-b33ff0c44a43?q=80&w=626&auto=format&fit=crop&ixlib=rb-4.0.3'"
+            />
+            <div class="absolute top-3 left-3">
+              <span class="bg-red-500 text-white px-2 py-1 rounded-full text-xs font-medium">
+                ${ad.categoria}
+              </span>
+            </div>
+            <div class="absolute top-3 right-3">
+              <span class="bg-black bg-opacity-50 text-white px-2 py-1 rounded-full text-xs">
+                ${formattedDate}
+              </span>
+            </div>
+          </div>
+          
+          <div class="p-4">
+            <h3 class="font-bold text-lg mb-2 text-white line-clamp-2">
+              ${ad.titolo}
+            </h3>
+            
+            <div class="flex items-center justify-between mb-3">
+              <p class="text-red-500 font-bold text-xl">€${ad.prezzo.toLocaleString(
+                "it-IT"
+              )}</p>
+              <div class="flex items-center text-slate-400 text-sm">
+                <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+                </svg>
+                ${ad.citta}
+              </div>
+            </div>
+            
+            <p class="text-slate-300 mb-4 line-clamp-2 text-sm">
+              ${ad.descrizione}
+            </p>
+            
+            <div class="flex gap-2">
+              <button 
+                onclick="viewAdDetail('${ad.id}')"
+                class="flex-1 bg-red-500 hover:bg-red-600 text-white px-3 py-2 rounded text-sm font-medium transition-colors cursor-pointer"
+              >
+                Visualizza
+              </button>
+              <button 
+                onclick="deleteUserAd('${ad.id}')"
+                class="bg-slate-600 hover:bg-slate-500 text-white px-3 py-2 rounded text-sm font-medium transition-colors cursor-pointer"
+                title="Elimina annuncio"
+              >
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/>
+                </svg>
+              </button>
+            </div>
+          </div>
+        `;
+
+        return card;
+      };
+
+      // Funzione per caricare gli annunci dell'utente
+      const loadUserAds = (userEmail) => {
+        const loadingSection = document.getElementById("ads-loading");
+        const adsGrid = document.getElementById("user-ads-grid");
+        const noAdsMessage = document.getElementById("no-ads-message");
+        const adsCount = document.getElementById("ads-count");
+
+        try {
+          // Mostra loading
+          loadingSection.classList.remove("hidden");
+          adsGrid.classList.add("hidden");
+          noAdsMessage.classList.add("hidden");
+
+          // Ottieni gli annunci dell'utente
+          const userAds = getUserAdsFromLocalStorage();
+          const myAds = userAds.filter(
+            (ad) => ad.venditore && ad.venditore.email === userEmail
+          );
+
+          // Nasconde loading
+          loadingSection.classList.add("hidden");
+
+          // Aggiorna il conteggio
+          adsCount.textContent = myAds.length;
+
+          if (myAds.length === 0) {
+            noAdsMessage.classList.remove("hidden");
+            return;
+          }
+
+          // Mostra gli annunci
+          adsGrid.classList.remove("hidden");
+          adsGrid.innerHTML = "";
+
+          // Ordina per data (più recenti prima)
+          const sortedAds = myAds.sort(
+            (a, b) =>
+              new Date(b.data_pubblicazione) - new Date(a.data_pubblicazione)
+          );
+
+          sortedAds.forEach((ad) => {
+            const card = createUserAdCard(ad);
+            adsGrid.appendChild(card);
+          });
+        } catch (error) {
+          console.error("Error loading user ads:", error);
+          loadingSection.classList.add("hidden");
+          adsGrid.innerHTML = `
+            <div class="col-span-full bg-slate-700 p-8 rounded-lg text-center">
+              <p class="text-red-400">Errore nel caricamento degli annunci</p>
+            </div>
+          `;
+        }
+      };
+
+      // Funzione per visualizzare i dettagli di un annuncio
+      const viewAdDetail = (adId) => {
+        window.location.href = `product-detail.html?id=${adId}`;
+      };
+
+      // Funzione per eliminare un annuncio
+      const deleteUserAd = (adId) => {
+        if (
+          confirm(
+            "Sei sicuro di voler eliminare questo annuncio? L'operazione non può essere annullata."
+          )
+        ) {
+          try {
+            const userAds = getUserAdsFromLocalStorage();
+            const updatedAds = userAds.filter((ad) => ad.id !== adId);
+
+            localStorage.setItem("userAds", JSON.stringify(updatedAds));
+
+            // Ricarica gli annunci
+            const loggedUser = JSON.parse(localStorage.getItem("loggedUser"));
+            loadUserAds(loggedUser.email);
+
+            // Mostra messaggio di successo
+            showSuccessMessage("Annuncio eliminato con successo!");
+          } catch (error) {
+            console.error("Error deleting ad:", error);
+            showErrorMessage("Errore durante l'eliminazione dell'annuncio.");
+          }
+        }
+      };
+
+      // Funzioni per mostrare messaggi
+      const showSuccessMessage = (message) => {
+        const successDiv = document.createElement("div");
+        successDiv.className =
+          "fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300";
+        successDiv.innerHTML = `
+          <div class="flex items-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+            </svg>
+            ${message}
+          </div>
+        `;
+
+        document.body.appendChild(successDiv);
+        setTimeout(() => {
+          if (document.body.contains(successDiv)) {
+            document.body.removeChild(successDiv);
+          }
+        }, 3000);
+      };
+
+      const showErrorMessage = (message) => {
+        const errorDiv = document.createElement("div");
+        errorDiv.className =
+          "fixed top-4 right-4 bg-red-500 text-white px-6 py-3 rounded-lg shadow-lg z-50 transition-all duration-300";
+        errorDiv.innerHTML = `
+          <div class="flex items-center">
+            <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+            ${message}
+          </div>
+        `;
+
+        document.body.appendChild(errorDiv);
+        setTimeout(() => {
+          if (document.body.contains(errorDiv)) {
+            document.body.removeChild(errorDiv);
+          }
+        }, 3000);
+      };
+    </script>
+  </body>
+</html>

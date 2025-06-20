@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dettaglio Prodotto - Svendolo</title>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"
+      defer
+    ></script>
+    <link rel="stylesheet" href="../global.css" />
+    <script src="../utils/path-helper.js" type="module" defer></script>
+    <script src="../components/navbar.js" type="module" defer></script>
+    <script src="../components/footer.js" defer></script>
+    <script src="../utils/product-detail.js" defer></script>
+  </head>
+  <body class="bg-slate-900 min-h-screen">
+    <!-- NAVBAR will be dynamically injected by navbar.js -->
+
+    <!-- MAIN CONTENT -->
+    <main class="px-4 max-w-6xl mx-auto py-8">
+      <!-- Loading state -->
+      <div id="loading" class="flex items-center justify-center min-h-[400px]">
+        <div class="text-center">
+          <div
+            class="animate-spin rounded-full h-12 w-12 border-b-2 border-red-500 mx-auto mb-4"
+          ></div>
+          <p class="text-slate-300">Caricamento dettagli prodotto...</p>
+        </div>
+      </div>
+
+      <!-- Product detail content -->
+      <div id="product-content" class="hidden">
+        <!-- Back button -->
+        <div class="mb-6">
+          <button
+            id="back-btn"
+            class="flex items-center text-slate-300 hover:text-white transition-colors"
+          >
+            <svg
+              class="w-5 h-5 mr-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
+            Torna indietro
+          </button>
+        </div>
+
+        <!-- Product details will be loaded here -->
+        <div id="product-details"></div>
+
+        <!-- Related products section -->
+        <section class="mt-16">
+          <h2 class="text-2xl font-bold text-white mb-8">Prodotti correlati</h2>
+          <div
+            id="related-products"
+            class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
+            <!-- Related products will be loaded here -->
+          </div>
+        </section>
+      </div>
+
+      <!-- Error state -->
+      <div id="error-content" class="hidden text-center py-16">
+        <svg
+          class="w-16 h-16 text-slate-500 mx-auto mb-4"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+          />
+        </svg>
+        <h2 class="text-2xl font-bold text-white mb-2">Prodotto non trovato</h2>
+        <p class="text-slate-400 mb-6">
+          Il prodotto richiesto non è disponibile o è stato rimosso.
+        </p>
+        <a
+          href="../index.html"
+          class="bg-red-500 hover:bg-red-600 text-white px-6 py-3 rounded-lg font-medium transition-colors"
+        >
+          Torna alla homepage
+        </a>
+      </div>
+    </main>
+
+    <!-- FOOTER will be dynamically injected by footer.js -->
+  </body>
+</html>

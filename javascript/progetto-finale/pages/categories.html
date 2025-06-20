@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Categorie - Svendolo</title>
+    <script
+      src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"
+      defer
+    ></script>
+    <link rel="stylesheet" href="../global.css" />
+    <script src="../utils/path-helper.js" type="module" defer></script>
+    <script src="../components/navbar.js" type="module" defer></script>
+    <script src="../components/footer.js" defer></script>
+    <script src="../utils/categories.js" defer></script>
+  </head>
+  <body class="bg-slate-900 min-h-screen">
+    <!-- NAVBAR will be dynamically injected by navbar.js -->
+
+    <!-- MAIN CONTENT -->
+    <main class="px-4 max-w-6xl mx-auto">
+      <!-- HEADER SECTION -->
+      <section class="flex flex-col items-center text-white mt-12 mb-8">
+        <div class="text-center">
+          <h1 class="text-4xl md:text-5xl font-bold mb-4">
+            Esplora le <span class="text-red-500">Categorie</span>
+          </h1>
+          <p class="text-lg md:text-xl text-slate-300 max-w-2xl">
+            Trova quello che cerchi navigando tra le nostre categorie
+          </p>
+        </div>
+      </section>
+
+      <!-- BREADCRUMB -->
+      <nav class="flex mb-6" aria-label="Breadcrumb">
+        <ol class="inline-flex items-center space-x-1 md:space-x-3">
+          <li class="inline-flex items-center">
+            <a
+              href="../index.html"
+              class="inline-flex items-center text-sm font-medium text-slate-400 hover:text-red-500"
+            >
+              <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                <path
+                  d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z"
+                ></path>
+              </svg>
+              Home
+            </a>
+          </li>
+          <li>
+            <div class="flex items-center">
+              <svg
+                class="w-6 h-6 text-slate-400"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+              >
+                <path
+                  fill-rule="evenodd"
+                  d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                  clip-rule="evenodd"
+                ></path>
+              </svg>
+              <span
+                class="ml-1 text-sm font-medium text-white md:ml-2"
+                id="breadcrumb-current"
+                >Categorie</span
+              >
+            </div>
+          </li>
+        </ol>
+      </nav>
+
+      <!-- CATEGORIES GRID -->
+      <section id="categories-section" class="mb-12">
+        <div
+          id="categories-grid"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
+        >
+          <!-- Categories will be loaded here -->
+        </div>
+      </section>
+
+      <!-- CATEGORY PRODUCTS SECTION (Hidden by default) -->
+      <section id="category-products-section" class="hidden">
+        <!-- Back Button -->
+        <div class="mb-6">
+          <button
+            id="back-to-categories"
+            class="inline-flex items-center text-red-500 hover:text-red-400 font-medium"
+          >
+            <svg
+              class="w-5 h-5 mr-2"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 19l-7-7 7-7"
+              ></path>
+            </svg>
+            Torna alle categorie
+          </button>
+        </div>
+
+        <!-- Category Header with Filters -->
+        <div class="bg-slate-800 p-6 rounded-lg mb-8">
+          <div class="mb-6">
+            <h2
+              id="category-title"
+              class="text-3xl font-bold text-white mb-2"
+            ></h2>
+            <p id="category-count" class="text-slate-300"></p>
+          </div>
+
+          <!-- Filters and Sorting Section -->
+          <div class="border-t border-slate-600 pt-6">
+            <h3 class="text-lg font-semibold text-white mb-4">
+              Filtri e ordinamento
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              <!-- Sorting -->
+              <div>
+                <label
+                  for="sort-by"
+                  class="block text-sm font-medium text-slate-300 mb-2"
+                >
+                  Ordina per
+                </label>
+                <select
+                  id="sort-by"
+                  class="w-full px-3 py-2 bg-slate-700 text-white rounded-md border border-slate-600 focus:border-red-500 focus:outline-none text-sm"
+                >
+                  <option value="date-desc">Più recenti</option>
+                  <option value="date-asc">Meno recenti</option>
+                  <option value="price-asc">Prezzo crescente</option>
+                  <option value="price-desc">Prezzo decrescente</option>
+                </select>
+              </div>
+
+              <!-- Text Search Filter -->
+              <div>
+                <label
+                  for="search-input"
+                  class="block text-sm font-medium text-slate-300 mb-2"
+                >
+                  Cerca nel titolo o descrizione
+                </label>
+                <input
+                  type="text"
+                  id="search-input"
+                  placeholder="Inserisci parole chiave..."
+                  class="w-full px-3 py-2 bg-slate-700 text-white rounded-md border border-slate-600 focus:border-red-500 focus:outline-none text-sm"
+                />
+              </div>
+
+              <!-- City Filter -->
+              <div>
+                <label
+                  for="city-filter"
+                  class="block text-sm font-medium text-slate-300 mb-2"
+                >
+                  Filtra per città
+                </label>
+                <select
+                  id="city-filter"
+                  class="w-full px-3 py-2 bg-slate-700 text-white rounded-md border border-slate-600 focus:border-red-500 focus:outline-none text-sm"
+                >
+                  <option value="">Tutte le città</option>
+                  <!-- Cities will be loaded dynamically -->
+                </select>
+              </div>
+            </div>
+
+            <!-- Clear Filters Button -->
+            <div class="mt-4">
+              <button
+                id="clear-filters"
+                class="bg-slate-600 hover:bg-slate-500 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors duration-200"
+              >
+                Cancella filtri
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Products Grid -->
+        <div
+          id="category-products-grid"
+          class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+        >
+          <!-- Products will be loaded here -->
+        </div>
+
+        <!-- No Products Message -->
+        <div
+          id="no-products-message"
+          class="hidden bg-slate-800 p-8 rounded-lg text-center"
+        >
+          <svg
+            class="w-16 h-16 text-slate-500 mx-auto mb-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+            />
+          </svg>
+          <h3 class="text-xl font-semibold text-white mb-2">
+            Nessun annuncio trovato
+          </h3>
+          <p class="text-slate-400">
+            Non ci sono ancora annunci in questa categoria.
+          </p>
+        </div>
+      </section>
+
+      <!-- Loading Section -->
+      <section id="loading-section" class="hidden">
+        <div class="bg-slate-800 p-8 rounded-lg text-center">
+          <div
+            class="animate-spin rounded-full h-12 w-12 border-b-2 border-red-500 mx-auto mb-4"
+          ></div>
+          <p class="text-slate-300">Caricamento in corso...</p>
+        </div>
+      </section>
+    </main>
+
+    <!-- FOOTER will be dynamically injected by footer.js -->
+  </body>
+</html>
